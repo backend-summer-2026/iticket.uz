@@ -8,6 +8,9 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 from src.core.config import settings
 from src.core.database import Base
+from src.users.models import User  # noqa: F401
+# from src.events.models import Event  # noqa: F401
+
 
 # Domain modellari shu yerda import qilinadi — shundagina Alembic ularni
 # `Base.metadata`ga ro'yxatdan o'tgan deb ko'radi va autogenerate ishlaydi
