@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
-
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.core.database import Base, UUIDMixin, TimestampMixin
+
 
 if TYPE_CHECKING:
     from src.organizers.models import Organizer
@@ -17,5 +17,8 @@ class User(Base, UUIDMixin, TimestampMixin):
     is_superuser: Mapped[bool] = mapped_column(default=False, nullable=False)
 
     organizer: Mapped['Organizer'] = relationship(
-        back_populates='user', foreign_keys='Organizer.user_id'
+        "Organizer",
+        back_populates="user",
+        foreign_keys="Organizer.user_id",
+        uselist=False
     )
