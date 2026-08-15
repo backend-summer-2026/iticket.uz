@@ -51,12 +51,14 @@ async def get_current_user(
     session: AsyncSession = Depends(get_db_session),
 ) -> User: ...
 
+
 # require_roles — faqat berilgan rollarga ruxsat beradi
 def require_roles(*allowed_roles: str):
     async def checker(user: User = Depends(get_current_user)) -> User:
         if user.role not in allowed_roles:
             raise HTTPException(403, "Ruxsat yo'q")
         return user
+
     return checker
 ```
 
