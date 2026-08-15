@@ -2,6 +2,12 @@ from fastapi import FastAPI
 
 from src.core.config import settings
 from src.auth import router as auth
+from src.organizers import router as organizers
+
+# Barcha SQLAlchemy modellari mapper konfiguratsiyasidan oldin import qilinishi kerak,
+# aks holda `relationship()` ichidagi satr(string) sifatidagi class nomlari topilmaydi.
+from src.users import models as user_models  # noqa: F401
+from src.organizers import models as organizer_models  # noqa: F401
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
@@ -12,7 +18,7 @@ app.include_router(auth.router, prefix=f"{settings.API_V1_PREFIX}/auth", tags=["
 # app.include_router(orders.router, prefix=f"{api}/orders", tags=["orders"])
 # app.include_router(payments.router, prefix=f"{api}/payments", tags=["payments"])
 # app.include_router(checkin.router, prefix=f"{api}/checkin", tags=["checkin"])
-# app.include_router(organizers.router, prefix=f"{api}/organizers", tags=["organizers"])
+app.include_router(organizers.router, prefix=f"{settings.API_V1_PREFIX}/organizers", tags=["organizers"])
 # app.include_router(admin.router, prefix=f"{api}/admin", tags=["admin"])
 
 

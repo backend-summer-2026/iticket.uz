@@ -3,8 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from src.core.database import get_db, AsyncSession
 from src.auth.schemas import UserRegisterRequest, UserLoginRequest, UserLoginResponse
 from src.users.schemas import UserBase
+from src.users.models import User
 from src.users.service import UserService
 from src.users.repository import UserRepository
+from src.auth.dependencies import get_current_user # type: ignore
 
 
 router = APIRouter()
@@ -41,3 +43,8 @@ async def login_user(user: UserLoginRequest, db: AsyncSession = Depends(get_db))
     token = user_service.create_access_token(existing_user.id)
 
     return {"access_token": token, "token_type": "bearer"}
+
+
+@router.get("/me", response_model=UserBase)
+async def get_current_user(current_user: User = Depends(get_current_user)) -> User:
+    return current_user
