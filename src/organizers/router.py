@@ -17,7 +17,7 @@ router = APIRouter()
 async def create_organizer(
     data: OrganizerCreate,
     current_user: User = Depends(get_current_active_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ) -> Organizer:
     organizer_repository = OrganizerRepository(db)
     organizer_service = OrganizerService(organizer_repository)
@@ -27,8 +27,7 @@ async def create_organizer(
 
 @router.get("/", response_model=OrganizerResponse)
 async def get_organizer(
-    current_user: User = Depends(get_current_active_user),
-    db: AsyncSession = Depends(get_db)
+    current_user: User = Depends(get_current_active_user), db: AsyncSession = Depends(get_db)
 ) -> Organizer:
     organizer_repository = OrganizerRepository(db)
     organizer_service = OrganizerService(organizer_repository)
@@ -40,7 +39,7 @@ async def get_organizer(
 async def approve_organization(
     data: OrganizerApprove = Body(),
     current_user: User = Depends(get_current_active_superuser),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ) -> Organizer:
     organizer_repository = OrganizerRepository(db)
     organizer_service = OrganizerService(organizer_repository)
@@ -52,7 +51,7 @@ async def approve_organization(
 async def reject_organization(
     data: OrganizerApprove = Body(),
     current_user: User = Depends(get_current_active_superuser),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ) -> Organizer:
     organizer_repository = OrganizerRepository(db)
     organizer_service = OrganizerService(organizer_repository)

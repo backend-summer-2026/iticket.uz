@@ -1,10 +1,11 @@
+from uuid import UUID
 from typing import Any
 
+from src.organizers.models import Organizer
 from src.core.database import AsyncSession
 from sqlalchemy import select
 
 from src.users.models import User
-from src.users.schemas import UserBase
 
 
 class UserRepository:
@@ -16,6 +17,12 @@ class UserRepository:
         result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
         return user
+
+    async def get_organizer(self, user_id: UUID) -> Organizer | None:
+        stmt = select(Organizer).where(Organizer.user_id == user_id)
+        result = await self.session.execute(stmt)
+        organizer = result.scalar_one_or_none()
+        return organizer
 
     async def get_user_by_email(self, email: str) -> Any | None:
         stmt = select(User).where(User.email == email)

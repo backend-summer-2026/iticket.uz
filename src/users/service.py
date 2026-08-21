@@ -2,6 +2,7 @@ from uuid import UUID
 
 from fastapi import HTTPException, status
 
+from src.organizers.models import Organizer
 from src.users.models import User
 from src.users.repository import UserRepository
 from src.auth.schemas import UserRegisterRequest
@@ -35,6 +36,10 @@ class UserService:
 
     async def delete_user(self, user: User) -> None:
         await self.user_repository.delete_user(user)
+
+    async def get_organizer_by_user_id(self, user_id: UUID) -> Organizer | None:
+        organizer = await self.user_repository.get_organizer(user_id)
+        return organizer
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return verify_password(plain_password, hashed_password)

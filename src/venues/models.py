@@ -8,3 +8,5 @@ class Venue(Base, UUIDMixin):
     address: Mapped[str] = mapped_column(nullable=False)
     city: Mapped[str] = mapped_column(nullable=False)
     capacity: Mapped[int] = mapped_column(nullable=False)
+
+    events: Mapped[List["Event"]] = relationship(back_populates="venue")

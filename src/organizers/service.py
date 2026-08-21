@@ -19,7 +19,9 @@ class OrganizerService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Organizer allaqachon bor",
             )
-        new_organizer = Organizer(company_name=data.company_name, description=data.description, user_id=str(user.id))
+        new_organizer = Organizer(
+            company_name=data.company_name, description=data.description, user_id=str(user.id)
+        )
         return await self.organizer_repository.create_organizer(new_organizer)
 
     async def get_organizer_by_user(self, user: User) -> Organizer:

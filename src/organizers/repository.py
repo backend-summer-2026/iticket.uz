@@ -33,8 +33,8 @@ class OrganizerRepository:
                 detail="Organizer mavjud emas",
             )
 
-        organizer.status = OrganizerStatus.APPROVED # type: ignore
-        organizer.approved_by = user.id # type: ignore
+        organizer.status = OrganizerStatus.APPROVED  # type: ignore
+        organizer.approved_by = user.id  # type: ignore
 
         self.session.add(organizer)
         await self.session.commit()
@@ -49,8 +49,8 @@ class OrganizerRepository:
                 detail="Organizer mavjud emas",
             )
 
-        organizer.status = OrganizerStatus.REJECTED # type: ignore
-        organizer.approved_by = user.id # type: ignore
+        organizer.status = OrganizerStatus.REJECTED  # type: ignore
+        organizer.approved_by = user.id  # type: ignore
 
         self.session.add(organizer)
         await self.session.commit()

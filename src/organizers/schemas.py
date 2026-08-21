@@ -3,7 +3,6 @@ from uuid import UUID
 from pydantic import BaseModel, Field, ConfigDict
 
 
-
 class OrganizerApprove(BaseModel):
     id: UUID
 
@@ -22,4 +21,4 @@ class OrganizerResponse(BaseModel):
     status: str
 
     user_id: UUID
-    approved_by: UUID | None = Field(example="123e4567-e89b-12d3-a456-426614174000") # type: ignore
+    approved_by: UUID | None = Field(example="123e4567-e89b-12d3-a456-426614174000")  # type: ignore

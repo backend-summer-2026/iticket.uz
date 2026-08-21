@@ -6,7 +6,7 @@ from src.users.schemas import UserBase
 from src.users.models import User
 from src.users.service import UserService
 from src.users.repository import UserRepository
-from src.auth.dependencies import get_current_user # type: ignore
+from src.auth.dependencies import get_current_user  # type: ignore
 
 
 router = APIRouter()

@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
+from src.organizers.models import Organizer
 from src.core.database import get_db, AsyncSession
 from src.users.models import User
 from src.users.service import UserService
@@ -11,7 +12,9 @@ from src.core.security import decode_access_token
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)) -> User:
+async def get_current_user(
+    token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
+) -> User:
     """Hozirgi foydalanuvchini olish."""
     try:
         payload = decode_access_token(token)
@@ -50,7 +53,9 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     return current_user
 
 
-async def get_current_active_superuser(current_user: User = Depends(get_current_active_user)) -> User:
+async def get_current_active_superuser(
+    current_user: User = Depends(get_current_active_user),
+) -> User:
     """Hozirgi faol superfoydalanuvchini olish."""
     if not current_user.is_superuser:
         raise HTTPException(
@@ -60,7 +65,9 @@ async def get_current_active_superuser(current_user: User = Depends(get_current_
     return current_user
 
 
-async def get_current_orginization_user(current_user: User = Depends(get_current_active_user)) -> User:
+async def get_current_orginization_user(
+    current_user: User = Depends(get_current_active_user),
+) -> User:
     """Hozirgi faol tashkilot foydalanuvchini olish."""
     if not current_user.organizer:
         raise HTTPException(
@@ -68,3 +75,18 @@ async def get_current_orginization_user(current_user: User = Depends(get_current
             detail="Foydalanuvchi organizer emas",
         )
     return current_user
+
+
+async def get_current_orginizer(
+    current_user: User = Depends(get_current_active_user), db: AsyncSession = Depends(get_db)
+) -> Organizer:
+    user_repository = UserRepository(db)
+    user_service = UserService(user_repository)
+    organizer = await user_service.get_organizer_by_user_id(current_user.id)
+
+    if not organizer:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Foydalanuvchi organizer emas",
+        )
+    return organizer

@@ -6,3 +6,5 @@ class Category(Base, UUIDMixin):
 
     name: Mapped[str] = mapped_column(nullable=False)
     slug: Mapped[str] = mapped_column(unique=True, nullable=False)
+
+    events: Mapped[List["Event"]] = relationship(back_populates="category")
